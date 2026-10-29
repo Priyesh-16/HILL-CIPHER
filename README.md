@@ -91,7 +91,7 @@ int main()
     char temp[4];
     int n;
 
-    strcpy(msg, "SecurityLaboratory");
+    strcpy(msg, "Priyesh");
 
     printf("Simulation of Hill Cipher\n");
     printf("Input message : %s\n", msg);
@@ -132,10 +132,14 @@ int main()
 
     return 0;
 }
+
 ```
 
 ## OUTPUT
-<img width="1917" height="1087" alt="image" src="https://github.com/user-attachments/assets/7c3a7eaa-3904-471c-ad5b-9175bd323a9f" />
+
+
+<img width="360" height="282" alt="image" src="https://github.com/user-attachments/assets/ba391622-d0a8-48ee-8525-3b59ae97c9d6" />
+
 
 ## RESULT
 
