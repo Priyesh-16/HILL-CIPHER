@@ -28,109 +28,57 @@ STEP-5: Combine all these groups to get the complete cipher text.
 
 ## PROGRAM 
 ```
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
-int keymat[3][3] = {
-    {1, 2, 1},
-    {2, 3, 2},
-    {2, 2, 1}
-};
-
-int invkeymat[3][3] = {
-    {-1, 0, 1},
-    {2, -1, 0},
-    {-2, 2, -1}
-};
-
-char key[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-void encode(char a, char b, char c, char ret[])
-{
-    int x, y, z;
-
-    int posa = a - 'A';
-    int posb = b - 'A';
-    int posc = c - 'A';
-
-    x = posa * keymat[0][0] + posb * keymat[1][0] + posc * keymat[2][0];
-    y = posa * keymat[0][1] + posb * keymat[1][1] + posc * keymat[2][1];
-    z = posa * keymat[0][2] + posb * keymat[1][2] + posc * keymat[2][2];
-
-    ret[0] = key[x % 26];
-    ret[1] = key[y % 26];
-    ret[2] = key[z % 26];
-    ret[3] = '\0';
-}
-
-void decode(char a, char b, char c, char ret[])
-{
-    int x, y, z;
-
-    int posa = a - 'A';
-    int posb = b - 'A';
-    int posc = c - 'A';
-
-    x = posa * invkeymat[0][0] + posb * invkeymat[1][0] + posc * invkeymat[2][0];
-    y = posa * invkeymat[0][1] + posb * invkeymat[1][1] + posc * invkeymat[2][1];
-    z = posa * invkeymat[0][2] + posb * invkeymat[1][2] + posc * invkeymat[2][2];
-
-    ret[0] = key[(x % 26 + 26) % 26];
-    ret[1] = key[(y % 26 + 26) % 26];
-    ret[2] = key[(z % 26 + 26) % 26];
-    ret[3] = '\0';
-}
-
 int main()
 {
-    char msg[1000];
-    char enc[1000] = "";
-    char dec[1000] = "";
-    char temp[4];
-    int n;
-
-    strcpy(msg, "Priyesh");
-
-    printf("Simulation of Hill Cipher\n");
-    printf("Input message : %s\n", msg);
-
-    for (int i = 0; msg[i] != '\0'; i++)
+    char plaintext[100];
+    int key[3][3];
+    int pt[3], ct[3];
+    int i, j, k, len;
+    printf("Enter the plaintext: ");
+    scanf("%s", plaintext);
+    for(i = 0; i < strlen(plaintext); i++)
     {
-        msg[i] = toupper((unsigned char)msg[i]);
+        plaintext[i] = toupper(plaintext[i]);
     }
-
-    n = strlen(msg) % 3;
-
-    // Append padding character X
-    if (n != 0)
+    printf("Enter the 3x3 key matrix (row-wise):\n");
+    for(i = 0; i < 3; i++)
     {
-        for (int i = 0; i < 3 - n; i++)
+        for(j = 0; j < 3; j++)
         {
-            strcat(msg, "X");
+            scanf("%d", &key[i][j]);
         }
     }
-
-    printf("Padded message : %s\n", msg);
-
-    for (int i = 0; i < strlen(msg); i += 3)
+    len = strlen(plaintext);
+    while(len % 3 != 0)
     {
-        encode(msg[i], msg[i + 1], msg[i + 2], temp);
-        strcat(enc, temp);
+        plaintext[len++] = 'X';
+        plaintext[len] = '\0';
     }
 
-    printf("Encoded message : %s\n", enc);
-
-    for (int i = 0; i < strlen(enc); i += 3)
+    printf("\nCipher Text/Enctpted Text: ");
+    for(i = 0; i < len; i += 3)
     {
-        decode(enc[i], enc[i + 1], enc[i + 2], temp);
-        strcat(dec, temp);
+        for(j = 0; j < 3; j++)
+        {
+            pt[j] = plaintext[i + j] - 'A';
+        }
+        for(j = 0; j < 3; j++)
+        {
+            ct[j] = 0;
+            for(k = 0; k < 3; k++)
+            {
+                ct[j] += key[j][k] * pt[k];
+            }
+            ct[j] = ct[j] % 26;
+        }
+        for(j = 0; j < 3; j++)
+        {
+            printf("%c", ct[j] + 'A');
+        }
     }
-
-    printf("Decoded message : %s\n", dec);
-
-    return 0;
 }
 
 ```
@@ -138,7 +86,8 @@ int main()
 ## OUTPUT
 
 
-<img width="360" height="282" alt="image" src="https://github.com/user-attachments/assets/ba391622-d0a8-48ee-8525-3b59ae97c9d6" />
+<img width="1917" height="1198" alt="Screenshot 2026-10-30 183841" src="https://github.com/user-attachments/assets/e9faa115-c4c5-41e1-8e8e-f8c0376e5456" />
+
 
 
 ## RESULT
